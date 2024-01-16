@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_media/utils/fetch_images.dart';
+import 'package:social_media/utils/test_fetch_image.dart';
 import 'package:social_media/utils/write_to_file.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FileExample(),
+      home: MyHomePage(),
     );
   }
 }
@@ -34,7 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    fetchGoogleImages("Restaurants", getDownloadsDirectory());
+   // fetchGoogleImages("Restaurants", getDownloadsDirectory());
+   fetcImages();
   }
 
 

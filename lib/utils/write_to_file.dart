@@ -20,7 +20,7 @@ class FileExampleState extends State<FileExample> {
       String filePath = '${documentDirectory!.path}/example.txt';
 
       File file = File(filePath);
-      print(filePath);
+      //print(filePath);
       await file.writeAsString(text);
       setState(() {
         isSuccess = true;
