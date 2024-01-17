@@ -7,17 +7,15 @@ Future<void> fetcImages() async{
  final response = await http.get(Uri.parse(url),);
  var document = parse(response.body);
 
-  // Extract image links
   List<String> imageLinks = [];
   document.querySelectorAll('img').forEach((element) {
     var imageUrl = element.attributes['src'];
-    if (imageUrl != null && imageUrl.isNotEmpty) {
+    if (imageUrl != null && imageUrl.isNotEmpty && imageUrl.contains("http")) {
       imageLinks.add(imageUrl);
     }
   });
 
-  // Print the first 50 image links
-  print(imageLinks[18]);
-  
-
+  for(int i = 0; i < 40; i++){
+    print(imageLinks[i]);
+  }
 }

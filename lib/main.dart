@@ -1,11 +1,5 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:social_media/utils/fetch_images.dart';
-import 'package:social_media/utils/test_fetch_image.dart';
-import 'package:social_media/utils/write_to_file.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -14,18 +8,15 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       home: MyHomePage(),
     );
   }
 }
-
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -33,16 +24,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   @override
-  void initState() {
-    super.initState();
-   // fetchGoogleImages("Restaurants", getDownloadsDirectory());
-   fetcImages();
-  }
-
-
-  @override
   Widget build(BuildContext context) {
 
-    return Scaffold();
+    return const Scaffold();
   }
 }
