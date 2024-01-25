@@ -44,7 +44,11 @@ class LoginpageState extends State<LoginPage> {
     );
   }
 
-  TextField customtextField(String labelText, Icon icon) {    const textFieldBackgroundColor = Colors.white;
+  TextField customtextField(String labelText, Icon icon) {   
+    
+    FocusNode focusNode = FocusNode();
+
+    const textFieldBackgroundColor = Colors.white;
     const blackColor = Colors.black;
     const greyColor = Colors.grey;
     const borderRadius = BorderRadius.all(Radius.circular(10));
