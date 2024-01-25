@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:social_media/widgets/custom_login_button.dart';
+import 'package:social_media/widgets/custom_textfield.dart';
+import 'package:yg_indicator_button/yg_indicator_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,7 +23,7 @@ class LoginpageState extends State<LoginPage> {
                 colors: [Colors.white, Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0.2, 0.9])),
+                stops: [0.0, 1])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(
@@ -32,10 +35,24 @@ class LoginpageState extends State<LoginPage> {
                   height: 150,
                   width: 150,
                 ),
-                const  SizedBox(height: 50,),
-                customtextField("Username", const Icon(Icons.person)),
-                const SizedBox(height: 20,),
-                customtextField("Password", const Icon(Icons.lock))
+                const SizedBox(
+                  height: 50,
+                ),
+                const CustomTextField(
+                  textlabel: "Username",
+                  icon: Icon(Icons.person),
+                  secure: false,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const CustomTextField(
+                  textlabel: "Password",
+                  icon: Icon(Icons.lock),
+                  secure: true,
+                  isDone: true,
+                ),
+                CustomLoginButton()
               ],
             ),
           ),
@@ -44,33 +61,4 @@ class LoginpageState extends State<LoginPage> {
     );
   }
 
-  TextField customtextField(String labelText, Icon icon) {    const textFieldBackgroundColor = Colors.white;
-    const blackColor = Colors.black;
-    const greyColor = Colors.grey;
-    const borderRadius = BorderRadius.all(Radius.circular(10));
-    const textStyle =  TextStyle(color: greyColor, fontSize: 18);
-    const floatingTextStyle =   TextStyle(
-          color: blackColor, fontSize: 22, fontWeight: FontWeight.w500);
-
-    return  TextField(
-      style: textStyle,
-      cursorColor: greyColor,
-        decoration: InputDecoration(
-      floatingLabelStyle: floatingTextStyle,
-          prefixIcon: icon,
-          prefixIconColor: greyColor,
-          hintStyle: const TextStyle(color: greyColor),
-      labelText: labelText,
-      labelStyle:  textStyle,
-      filled: true,
-      fillColor: textFieldBackgroundColor,
-      enabledBorder: const OutlineInputBorder(
-          borderRadius: borderRadius,
-          borderSide: BorderSide.none),
-      focusedBorder: const  OutlineInputBorder(
-          borderRadius: borderRadius, 
-          borderSide: BorderSide(color: blackColor, width: 1.5)),
-    ), 
-    );
-  }
 }
