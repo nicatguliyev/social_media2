@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media/test/test_inkwell_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,9 +34,10 @@ class LoginpageState extends State<LoginPage> {
                   width: 150,
                 ),
                 const  SizedBox(height: 50,),
-                customtextField("Username", const Icon(Icons.person)),
+                CustomInkWellButton(),
+               // customtextField("Username", const Icon(Icons.person)),
                 const SizedBox(height: 20,),
-                customtextField("Password", const Icon(Icons.lock))
+                //customtextField("Password", const Icon(Icons.lock))
               ],
             ),
           ),
