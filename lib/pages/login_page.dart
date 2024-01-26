@@ -3,7 +3,6 @@ import 'package:social_media/utils/style_constants.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
 import 'package:social_media/widgets/register_here.dart';
-import 'package:yg_indicator_button/yg_indicator_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,52 +24,52 @@ class LoginpageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AbsorbPointer(
-        absorbing: false,
-        child: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Color.fromARGB(255, 156, 156, 156), Colors.black],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: [0.0, 1])),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  logo,
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const CustomTextField(
-                    textlabel: "Username",
-                    icon: Icon(Icons.person),
-                    secure: false,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const CustomTextField(
-                    textlabel: "Password",
-                    icon: Icon(Icons.lock),
-                    secure: true,
-                    isDone: true,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                   CustomLoginButton(onpressed: messageFromChild,),
-                   const SizedBox(
-                    height: 40,
-                  ),
-                  const RegisterHereButton(),
-                ],
+          absorbing: false,
+          child: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 156, 156, 156), Colors.black],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [0.0, 1])),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    logo,
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    const CustomTextField(
+                      textlabel: "Username",
+                      icon: Icon(Icons.person),
+                      secure: false,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const CustomTextField(
+                      textlabel: "Password",
+                      icon: Icon(Icons.lock),
+                      secure: true,
+                      isDone: true,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                     CustomLoginButton(onpressed: messageFromChild,),
+                     const SizedBox(
+                      height: 40,
+                    ),
+                    const RegisterHereButton(),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
     );
   }
 }
