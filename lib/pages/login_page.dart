@@ -14,62 +14,63 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginpageState extends State<LoginPage> {
-
-  void messageFromChild(){
+  void messageFromChild() {
     print("Message from child");
   }
-   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AbsorbPointer(
-          absorbing: false,
-          child: Container(
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 156, 156, 156), Colors.black],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: [0.0, 1])),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    logo,
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    const CustomTextField(
-                      textlabel: "Username",
-                      icon: Icon(Icons.person),
-                      secure: false,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const CustomTextField(
-                      textlabel: "Password",
-                      icon: Icon(Icons.lock),
-                      secure: true,
-                      isDone: true,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                     CustomLoginButton(onpressed: messageFromChild,),
-                     const SizedBox(
-                      height: 40,
-                    ),
-                    const RegisterHereButton(),
-                  ],
-                ),
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Color.fromARGB(255, 156, 156, 156), Colors.black],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.0, 1])),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  logo,
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  const CustomTextField(
+                    textlabel: "Username",
+                    icon: Icon(Icons.person),
+                    secure: false,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const CustomTextField(
+                    textlabel: "Password",
+                    icon: Icon(Icons.lock),
+                    secure: true,
+                    isDone: true,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomLoginButton(
+                    onpressed: messageFromChild,
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const RegisterHereButton(),
+                ],
               ),
             ),
           ),
         ),
+      ),
     );
   }
 }
