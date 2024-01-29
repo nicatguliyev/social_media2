@@ -18,10 +18,11 @@ class LoginPageState extends State<LoginPage> {
   Dio dio = Dio();
   String response = "No data";
   bool isIndicatorVisible = false;
+  String responseText = "";
+  bool isResponseTextVisible = false;
 
   void messageFromChild(BuildContext context) {
     FocusScope.of(context).unfocus();
-    //print(context.mounted);
     getUsers();
   }
 
@@ -66,7 +67,7 @@ class LoginPageState extends State<LoginPage> {
                 Align(
                   alignment: Alignment.center,
                   child: CustomLoginButton(
-                    onpressed: (){
+                    onpressed: () {
                       messageFromChild(context);
                     },
                   ),
@@ -74,17 +75,27 @@ class LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 40,
                 ),
-                 const RegisterHereButton(),
-                  const SizedBox(
+                const RegisterHereButton(),
+                const SizedBox(
                   height: 40,
                 ),
                 Align(
                     alignment: Alignment.center,
-                    child: Visibility(
-                      visible: isIndicatorVisible,
-                      child: const CircularProgressIndicator(
-                        color: green,
-                      ),
+                    child: Column(
+                      children: [
+                        Visibility(
+                          visible: isIndicatorVisible,
+                          child: const CircularProgressIndicator(
+                            color: green,
+                          ),
+                        ),
+                        Visibility(
+                            visible: isResponseTextVisible,
+                            child: Text(
+                              responseText,
+                              style: const TextStyle(color: Colors.red),
+                            )),
+                      ],
                     ))
               ],
             ),
@@ -96,11 +107,24 @@ class LoginPageState extends State<LoginPage> {
 
   void getUsers() async {
     setState(() {
+      isResponseTextVisible = false;
       isIndicatorVisible = true;
+      responseText = "Login Successfully";
     });
-    Response response = await dio.get("http://34.125.169.237/users");
-    setState(() {
-      isIndicatorVisible = false;
-    });
+    try {
+      Response response = await dio.get("http://34sd.125.169.237/ussdcsers");
+      setState(() {
+        isIndicatorVisible = false;
+        responseText = "Login Successfully";
+        isResponseTextVisible = true;
+        
+      });
+    } catch (e) {
+      setState(() {
+        isIndicatorVisible = false;
+        isResponseTextVisible = true;
+        responseText = "An error occured";
+      });
+    }
   }
 }
