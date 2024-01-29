@@ -23,7 +23,6 @@ class LoginpageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -35,11 +34,6 @@ class LoginpageState extends State<LoginPage> {
                 stops: [0.0, 1])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Container(
-              height: Platform.isIOS == true ? screenHeight :  screenHeight-30 ,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -74,8 +68,6 @@ class LoginpageState extends State<LoginPage> {
                 ],
               ),
             ),
-          ),
-        ),
       ),
     );
   }
