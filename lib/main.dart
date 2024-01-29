@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:social_media/pages/login_listview_page.dart';
 import 'package:social_media/pages/login_page.dart';
+import 'package:social_media/test/test_listview.dart';
 import 'package:social_media/test/test_textfield.dart';
 void main() {
   runApp(const MyApp());
@@ -12,10 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    return  MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
 
-      home: LoginPage(),
+      home: LoginPageWithListview(),
     );
   }
 }

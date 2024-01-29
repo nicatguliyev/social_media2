@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:social_media/utils/style_constants.dart';
@@ -17,8 +18,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginpageState extends State<LoginPage> {
+  Dio dio = Dio();
+  String response = "No data";
+  bool isIndicatorVisible = false;
+
   void messageFromChild() {
-    print("Message from child");
+    getUsers();
   }
 
   @override
@@ -34,42 +39,53 @@ class LoginpageState extends State<LoginPage> {
                 stops: [0.0, 1])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  logo,
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const CustomTextField(
-                    textlabel: "Username",
-                    icon: Icon(Icons.person),
-                    secure: false,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const CustomTextField(
-                    textlabel: "Password",
-                    icon: Icon(Icons.lock),
-                    secure: true,
-                    isDone: true,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomLoginButton(
-                    onpressed: messageFromChild,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  const RegisterHereButton(),
-                ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              logo,
+              const SizedBox(
+                height: 50,
               ),
-            ),
+              const CustomTextField(
+                textlabel: "Username",
+                icon: Icon(Icons.person),
+                secure: false,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const CustomTextField(
+                textlabel: "Password",
+                icon: Icon(Icons.lock),
+                secure: true,
+                isDone: true,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomLoginButton(
+                onpressed: messageFromChild,
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const RegisterHereButton(),
+            
+              // isLoginCompleted == false ? const CircularProgressIndicator(color: green,) : const SizedBox(),
+            ],
+          ),
+        ),
       ),
     );
   }
 
+  void getUsers() async {
+    setState(() {
+      isIndicatorVisible = true;
+    });
+    Response response = await dio.get("http://34.125.169.237/users");
+    setState(() {
+      isIndicatorVisible = false;
+    });
+  }
 }
