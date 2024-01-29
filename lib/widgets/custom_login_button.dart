@@ -23,11 +23,12 @@ class CustomLoginButton extends StatelessWidget {
       child: Material(
         color: transparent,
         child: InkWell(
-            onTap: () {},
+            onTap: onpressed,
             splashColor: loginBtnSplashColor,
             borderRadius: btnBorderRadius,
             child:  Center(
               child: Text(
+                
                 "LOGIN",
                 style: const TextStyle(
                     color: green,
