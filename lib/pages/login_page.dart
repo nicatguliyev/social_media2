@@ -22,10 +22,15 @@ class LoginPageState extends State<LoginPage> {
   bool isIndicatorVisible = false;
   String responseText = "";
   bool isResponseTextVisible = false;
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  void messageFromChild(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    getUsers();
+  void loginBtnOnPress(
+      {required BuildContext context,
+      required String username,
+      required String password}) {
+    FocusScope.of(context).unfocus(); // dismiss keyboard
+    login(username, password);
   }
 
   @override
@@ -49,17 +54,19 @@ class LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 50,
                 ),
-                const CustomTextField(
+                CustomTextField(
+                  controller: userNameController,
                   textlabel: "Username",
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                   secure: false,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomTextField(
+                CustomTextField(
+                  controller: passwordController,
                   textlabel: "Password",
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
                   secure: true,
                   isDone: true,
                 ),
@@ -70,7 +77,10 @@ class LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   child: CustomLoginButton(
                     onpressed: () {
-                      messageFromChild(context);
+                      loginBtnOnPress(
+                          context: context,
+                          username: userNameController.text,
+                          password: passwordController.text);
                     },
                   ),
                 ),
@@ -107,39 +117,44 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  void getUsers() async {
+  void login(String username, String password) async {
     setState(() {
       setVisibility(true, false);
     });
     try {
-      Response response = await dio.get("http://34.125.169.237/users");
+      Response response = await dio.get(
+          "http://34.125.169.237/users?username=$username&password=$password");
       setState(() {
-         responseText = "Login Successfully";
-         setVisibility(false, true);
+        if(response.data.length == 0){
+          responseText = "Username or password is incorrect";
+        }
+        else{
+          //print(response.data.toString());
+          responseText = "Successfully logged in";
+        }
+        setVisibility(false, true);
       });
     } on DioException catch (e) {
       setState(() {
         setVisibility(false, true);
-        if(e.response != null){
-            responseText = "An error occured: ${e.response!.statusCode}";
-        }
-        else {
-              if(e.error is SocketException){
-                  responseText = "There is no Internet connection";
-              }
+        if (e.response != null) {
+          responseText = "An error occured: ${e.response!.statusCode}";
+        } else {
+          if (e.error is SocketException) {
+            responseText = "There is no Internet connection";
+          }
         }
       });
-    }
-    catch (e){
+    } catch (e) {
       setState(() {
         setVisibility(false, true);
-        responseText = "Unexcepted error occured:  ${e}";
+        responseText = "Unexcepted error occured; $e";
       });
     }
   }
 
   void setVisibility(bool indicatorVisibility, bool responseTextVisibility) {
-       isIndicatorVisible  = indicatorVisibility;
-       isResponseTextVisible = responseTextVisibility;
+    isIndicatorVisible = indicatorVisibility;
+    isResponseTextVisible = responseTextVisibility;
   }
 }

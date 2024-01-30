@@ -8,13 +8,14 @@ class CustomTextField extends StatefulWidget {
   final Icon icon;
   final bool secure;
   final bool isDone;
+  final TextEditingController controller;
 
   const CustomTextField(
       {super.key,
       required this.textlabel,
       required this.icon,
       required this.secure,
-      this.isDone = false});
+      this.isDone = false, required this.controller});
 
   @override
   State<CustomTextField> createState() {
@@ -23,7 +24,6 @@ class CustomTextField extends StatefulWidget {
 }
 
 class CustomTextFieldState extends State<CustomTextField> {
-  final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
   Color floatingTextColor = green;
 
@@ -46,7 +46,7 @@ class CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
+      controller: widget.controller,
       focusNode: focusNode,
       obscureText: widget.secure == true ? true : false,
       textInputAction:
