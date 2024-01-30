@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media/utils/style_constants.dart';
@@ -107,24 +109,37 @@ class LoginPageState extends State<LoginPage> {
 
   void getUsers() async {
     setState(() {
-      isResponseTextVisible = false;
-      isIndicatorVisible = true;
-      responseText = "Login Successfully";
+      setVisibility(true, false);
     });
     try {
-      Response response = await dio.get("http://34sd.125.169.237/ussdcsers");
+      Response response = await dio.get("http://34.125.169.237/users");
       setState(() {
-        isIndicatorVisible = false;
-        responseText = "Login Successfully";
-        isResponseTextVisible = true;
-        
+         responseText = "Login Successfully";
+         setVisibility(false, true);
       });
-    } catch (e) {
+    } on DioException catch (e) {
       setState(() {
-        isIndicatorVisible = false;
-        isResponseTextVisible = true;
-        responseText = "An error occured";
+        setVisibility(false, true);
+        if(e.response != null){
+            responseText = "An error occured: ${e.response!.statusCode}";
+        }
+        else {
+              if(e.error is SocketException){
+                  responseText = "There is no Internet connection";
+              }
+        }
       });
     }
+    catch (e){
+      setState(() {
+        setVisibility(false, true);
+        responseText = "Unexcepted error occured:  ${e}";
+      });
+    }
+  }
+
+  void setVisibility(bool indicatorVisibility, bool responseTextVisibility) {
+       isIndicatorVisible  = indicatorVisibility;
+       isResponseTextVisible = responseTextVisibility;
   }
 }
