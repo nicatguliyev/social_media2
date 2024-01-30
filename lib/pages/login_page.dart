@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:social_media/pages/home_page.dart';
 import 'package:social_media/utils/style_constants.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
@@ -18,7 +19,6 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   Dio dio = Dio();
-  String response = "No data";
   bool isIndicatorVisible = false;
   String responseText = "";
   bool isResponseTextVisible = false;
@@ -40,7 +40,7 @@ class LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color.fromARGB(255, 156, 156, 156), Colors.black],
+                colors: [backgroundStartGradientColor, Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: [0.0, 1])),
@@ -51,18 +51,14 @@ class LoginPageState extends State<LoginPage> {
               shrinkWrap: true,
               children: [
                 logo,
-                const SizedBox(
-                  height: 50,
-                ),
+                sizedBox(50),
                 CustomTextField(
                   controller: userNameController,
                   textlabel: "Username",
                   icon: const Icon(Icons.person),
                   secure: false,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                sizedBox(20),
                 CustomTextField(
                   controller: passwordController,
                   textlabel: "Password",
@@ -70,9 +66,7 @@ class LoginPageState extends State<LoginPage> {
                   secure: true,
                   isDone: true,
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                sizedBox(30),
                 Align(
                   alignment: Alignment.center,
                   child: CustomLoginButton(
@@ -84,31 +78,29 @@ class LoginPageState extends State<LoginPage> {
                     },
                   ),
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                sizedBox(40),
                 const RegisterHereButton(),
-                const SizedBox(
-                  height: 40,
-                ),
+                sizedBox(40),
                 Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Visibility(
-                          visible: isIndicatorVisible,
-                          child: const CircularProgressIndicator(
-                            color: green,
-                          ),
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: isIndicatorVisible,
+                        child: const CircularProgressIndicator(
+                          color: green,
                         ),
-                        Visibility(
-                            visible: isResponseTextVisible,
-                            child: Text(
-                              responseText,
-                              style: const TextStyle(color: Colors.red),
-                            )),
-                      ],
-                    ))
+                      ),
+                      Visibility(
+                          visible: isResponseTextVisible,
+                          child: Text(
+                            responseText,
+                            style: const TextStyle(color: red),
+                          )),
+                    ],
+                  ),
+                ),
+                sizedBox(20)
               ],
             ),
           ),
@@ -122,17 +114,24 @@ class LoginPageState extends State<LoginPage> {
       setVisibility(true, false);
     });
     try {
-      Response response = await dio.get(
-          "http://34.125.169.237/users?username=$username&password=$password");
+      Response response =
+          await dio.get("${url}users?username=$username&password=$password");
       setState(() {
-        if(response.data.length == 0){
-          responseText = "Username or password is incorrect";
+            setVisibility(false, true);
+        if (response.data is List) {
+            if(response.data.length == 0){
+              responseText = incorretUsernamePassword;
+            }
+            else {
+              setVisibility(false, false);
+              userNameController.text = "";
+              passwordController.text = "";
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+            }
         }
-        else{
-          //print(response.data.toString());
-          responseText = "Successfully logged in";
+        else {
+              responseText = somethingWrong;
         }
-        setVisibility(false, true);
       });
     } on DioException catch (e) {
       setState(() {
@@ -141,14 +140,14 @@ class LoginPageState extends State<LoginPage> {
           responseText = "An error occured: ${e.response!.statusCode}";
         } else {
           if (e.error is SocketException) {
-            responseText = "There is no Internet connection";
+            responseText = noInternetConnection;
           }
         }
       });
     } catch (e) {
       setState(() {
         setVisibility(false, true);
-        responseText = "Unexcepted error occured; $e";
+        responseText = unExceptedError;
       });
     }
   }

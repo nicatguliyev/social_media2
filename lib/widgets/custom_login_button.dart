@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media/utils/style_constants.dart';
 
@@ -26,14 +27,12 @@ class CustomLoginButton extends StatelessWidget {
             onTap: onpressed,
             splashColor: loginBtnSplashColor,
             borderRadius: btnBorderRadius,
-            child:  Center(
+            child: Center(
               child: Text(
-                
                 "LOGIN",
                 style: const TextStyle(
-                    color: green,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600).merge(fontFamily),
+                        color: green, fontSize: 18, fontWeight: FontWeight.w600)
+                    .merge(fontFamily),
               ),
             )),
       ),
