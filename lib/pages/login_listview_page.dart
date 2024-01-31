@@ -1,13 +1,11 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media/utils/style_constants.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
-import 'package:social_media/widgets/register_here.dart';
 
 class LoginPageWithListview extends StatefulWidget {
+
   const LoginPageWithListview({super.key});
 
   @override
@@ -20,6 +18,7 @@ class LoginpageWithListviewState extends State<LoginPageWithListview> {
   Dio dio = Dio();
   String response = "No data";
   bool isIndicatorVisible = false;
+  TextEditingController controller = TextEditingController();
 
   void messageFromChild() {
     getUsers();
@@ -47,17 +46,19 @@ class LoginpageWithListviewState extends State<LoginPageWithListview> {
                 const SizedBox(
                   height: 50,
                 ),
-                const CustomTextField(
+                 CustomTextField(
+                  controller: controller,
                   textlabel: "Username",
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                   secure: false,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomTextField(
+                 CustomTextField(
+                  controller: controller,
                   textlabel: "Password",
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
                   secure: true,
                   isDone: true,
                 ),
@@ -88,7 +89,7 @@ class LoginpageWithListviewState extends State<LoginPageWithListview> {
     setState(() {
       isIndicatorVisible = true;
     });
-    Response response = await dio.get("http://34.125.169.237/users");
+    Response _ = await dio.get("http://34.125.169.237/users");
     setState(() {
       isIndicatorVisible = false;
     });

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import 'package:social_media/pages/home_page.dart';
 import 'package:social_media/utils/style_constants.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
@@ -13,17 +14,25 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<LoginPage> createState() {
-    return LoginpageState();
+    return LoginPageState();
   }
 }
 
-class LoginpageState extends State<LoginPage> {
-  Dio dio = Dio();
-  String response = "No data";
-  bool isIndicatorVisible = false;
 
-  void messageFromChild() {
-    getUsers();
+class LoginPageState extends State<LoginPage> {
+  Dio dio = Dio();
+  bool isIndicatorVisible = false;
+  String responseText = "";
+  bool isResponseTextVisible = false;
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void loginBtnOnPress(
+      {required BuildContext context,
+      required String username,
+      required String password}) {
+    FocusScope.of(context).unfocus(); // dismiss keyboard
+    login(username, password);
   }
 
   @override
@@ -33,59 +42,121 @@ class LoginpageState extends State<LoginPage> {
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color.fromARGB(255, 156, 156, 156), Colors.black],
+                colors: [backgroundStartGradientColor, Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: [0.0, 1])),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              logo,
-              const SizedBox(
-                height: 50,
-              ),
-              const CustomTextField(
-                textlabel: "Username",
-                icon: Icon(Icons.person),
-                secure: false,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const CustomTextField(
-                textlabel: "Password",
-                icon: Icon(Icons.lock),
-                secure: true,
-                isDone: true,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomLoginButton(
-                onpressed: messageFromChild,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              const RegisterHereButton(),
-            
-              // isLoginCompleted == false ? const CircularProgressIndicator(color: green,) : const SizedBox(),
-            ],
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                logo,
+                sizedBox(50),
+                CustomTextField(
+                  controller: userNameController,
+                  textlabel: "Username",
+                  icon: const Icon(Icons.person),
+                  secure: false,
+                ),
+                sizedBox(20),
+                CustomTextField(
+                  controller: passwordController,
+                  textlabel: "Password",
+                  icon: const Icon(Icons.lock),
+                  secure: true,
+                  isDone: true,
+                ),
+                sizedBox(30),
+                Align(
+                  alignment: Alignment.center,
+                  child: CustomLoginButton(
+                    onpressed: () {
+                      loginBtnOnPress(
+                          context: context,
+                          username: userNameController.text,
+                          password: passwordController.text);
+                    },
+                  ),
+                ),
+                sizedBox(40),
+                const RegisterHereButton(),
+                sizedBox(40),
+                Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: isIndicatorVisible,
+                        child: const CircularProgressIndicator(
+                          color: green,
+                        ),
+                      ),
+                      Visibility(
+                          visible: isResponseTextVisible,
+                          child: Text(
+                            responseText,
+                            style: const TextStyle(color: red),
+                          )),
+                    ],
+                  ),
+                ),
+                sizedBox(20)
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void getUsers() async {
+
+  void login(String username, String password) async {
     setState(() {
-      isIndicatorVisible = true;
+      setVisibility(true, false);
     });
-    Response response = await dio.get("http://34.125.169.237/users");
-    setState(() {
-      isIndicatorVisible = false;
-    });
+    try {
+      Response response =
+          await dio.get("${url}users?username=$username&password=$password");
+      setState(() {
+            setVisibility(false, true);
+        if (response.data is List) {
+            if(response.data.length == 0){
+              responseText = incorretUsernamePassword;
+            }
+            else {
+              setVisibility(false, false);
+              userNameController.text = "";
+              passwordController.text = "";
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+            }
+        }
+        else {
+              responseText = somethingWrong;
+        }
+      });
+    } on DioException catch (e) {
+      setState(() {
+        setVisibility(false, true);
+        if (e.response != null) {
+          responseText = "An error occured: ${e.response!.statusCode}";
+        } else {
+          if (e.error is SocketException) {
+            responseText = noInternetConnection;
+          }
+        }
+      });
+    } catch (e) {
+      setState(() {
+        setVisibility(false, true);
+        responseText = unExceptedError;
+      });
+    }
+  }
+
+  void setVisibility(bool indicatorVisibility, bool responseTextVisibility) {
+    isIndicatorVisible = indicatorVisibility;
+    isResponseTextVisible = responseTextVisibility;
   }
 }
