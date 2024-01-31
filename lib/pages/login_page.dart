@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:social_media/pages/home_page.dart';
+import 'package:social_media/pages/register_page.dart';
 import 'package:social_media/utils/style_constants.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
@@ -81,7 +82,9 @@ class LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 sizedBox(40),
-                const RegisterHereButton(),
+                 RegisterHereButton(onPressed: () {
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+                }, ),
                 sizedBox(40),
                 Align(
                   alignment: Alignment.center,

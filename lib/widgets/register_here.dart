@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:social_media/utils/style_constants.dart';
 
 class RegisterHereButton extends StatelessWidget {
-  const RegisterHereButton({super.key});
+  final VoidCallback onPressed;
+  const RegisterHereButton({super.key, required this.onPressed});
 
 
   @override
   Widget build(BuildContext context) {
-      return TextButton(onPressed: (){}, child: Text("Don't have an account? Register here" ,
+
+      return TextButton(onPressed: onPressed, child: Text("Don't have an account? Register here" ,
        style: const TextStyle(color: white).merge(fontFamily),),);
   }
 }

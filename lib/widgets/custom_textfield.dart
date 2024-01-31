@@ -8,13 +8,16 @@ class CustomTextField extends StatefulWidget {
   final bool secure;
   final bool isDone;
   final TextEditingController controller;
+   final VoidCallback? onEditComleted;
 
-  const CustomTextField(
+   const CustomTextField(
       {super.key,
       required this.textlabel,
       required this.icon,
       required this.secure,
-      this.isDone = false, required this.controller});
+      this.isDone = false,
+      required this.controller,
+      this.onEditComleted});
 
   @override
   State<CustomTextField> createState() {
@@ -46,6 +49,7 @@ class CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
+      onEditingComplete: widget.onEditComleted,
       focusNode: focusNode,
       obscureText: widget.secure == true ? true : false,
       textInputAction:
