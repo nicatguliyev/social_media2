@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:social_media/pages/home_page.dart';
 import 'package:social_media/pages/register_page.dart';
+import 'package:social_media/test/test_post_request.dart';
 import 'package:social_media/utils/style_constants.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
@@ -12,6 +13,7 @@ import 'package:social_media/widgets/register_here.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+  
 
   @override
   State<LoginPage> createState() {
@@ -27,6 +29,7 @@ class LoginPageState extends State<LoginPage> {
   bool isResponseTextVisible = false;
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TestPostRequest request = TestPostRequest();
 
   void loginBtnOnPress(
       {required BuildContext context,
@@ -34,6 +37,12 @@ class LoginPageState extends State<LoginPage> {
       required String password}) {
     FocusScope.of(context).unfocus(); // dismiss keyboard
     login(username, password);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    request.createUser();
   }
 
   @override
@@ -72,7 +81,9 @@ class LoginPageState extends State<LoginPage> {
                 sizedBox(30),
                 Align(
                   alignment: Alignment.center,
-                  child: CustomLoginButton(
+                  child: CustomButton(
+                    title: "LOGIN",
+                    width: 200,
                     onpressed: () {
                       loginBtnOnPress(
                           context: context,

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/utils/style_constants.dart';
 
-class CustomLoginButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final VoidCallback onpressed;
-  const CustomLoginButton({super.key, required this.onpressed});
+  final String title;
+  final double width;
+  const CustomButton({super.key, required this.onpressed, required this.title, required this.width});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      width: 200,
+      width: width,
       decoration: BoxDecoration(
           boxShadow: [
             btnShadow(black, 0.5, 3.0, 3.0, const Offset(0, 4)),
@@ -28,7 +30,7 @@ class CustomLoginButton extends StatelessWidget {
             borderRadius: btnBorderRadius,
             child: Center(
               child: Text(
-                "LOGIN",
+                title,
                 style: const TextStyle(
                         color: green, fontSize: 18, fontWeight: FontWeight.w600)
                     .merge(fontFamily),

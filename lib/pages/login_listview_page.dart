@@ -67,9 +67,13 @@ class LoginpageWithListviewState extends State<LoginPageWithListview> {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: CustomLoginButton(
-                    onpressed: messageFromChild,
-                  ),
+                  child: CustomButton(
+                    title: "LOGIN",
+                    width: 200,
+                    onpressed: () {
+                      
+                    },
+                  )
                 ),
                 const SizedBox(
                   height: 40,

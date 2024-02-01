@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media/pages/home_page.dart';
 import 'package:social_media/utils/style_constants.dart';
+import 'package:social_media/widgets/circle_icon_button.dart';
 import 'package:social_media/widgets/custom_login_button.dart';
 import 'package:social_media/widgets/custom_textfield.dart';
 
@@ -45,14 +46,14 @@ class RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void loginBtnOnPress(
-      {required BuildContext context,
-      required String username,
-      required String password}) {
-    FocusScope.of(context).unfocus(); // dismiss keyboard
-    scrollController.jumpTo(50);
-    login(username, password);
-  }
+  // void loginBtnOnPress(
+  //     {required BuildContext context,
+  //     required String username,
+  //     required String password}) {
+  //   FocusScope.of(context).unfocus(); // dismiss keyboard
+  //   scrollController.jumpTo(50);
+  //   login(username, password);
+  // }
 
   void onEditCompleted() {
     setState(() {
@@ -63,20 +64,14 @@ class RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color dynamicColor = Color.lerp(
-            transparent,
-            const Color.fromARGB(255, 82, 82, 82),
-            scrollPosition > 100 ? 1 : scrollPosition / 100) ??
-        transparent;
-
-       Color dynamicColor2 = Color.lerp(
-            transparent,
-            white,
-            scrollPosition > 100 ? 1 : scrollPosition / 100) ??
-        transparent;
+    Color dynamicColor = Color.lerp(const Color.fromARGB(75, 243, 243, 243),
+            white, scrollPosition > 100 ? 1 : scrollPosition / 100) ??
+        const Color.fromARGB(75, 243, 243, 243);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      floatingActionButton: CircleIconButton(backgroundColor: dynamicColor, onPressed: Navigator.of(context).pop, ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           return true;
@@ -102,37 +97,23 @@ class RegisterPageState extends State<RegisterPage> {
                     sizedBox(50),
                     CustomTextField(
                       controller: nameController,
-                      textlabel: "Name",
+                      textlabel: "Name and Surname",
                       icon: const Icon(Icons.person),
-                      secure: false,
-                      isDone: true,
                       onEditComleted: onEditCompleted,
-                    ),
-                    sizedBox(20),
-                    CustomTextField(
-                      controller: surnameController,
-                      textlabel: "Surname",
-                      icon: const Icon(Icons.person),
-                      secure: false,
-                      isDone: true,
-                      onEditComleted: onEditCompleted,
+                      isSpaceAllowed: true,
                     ),
                     sizedBox(20),
                     CustomTextField(
                       controller: emailController,
                       textlabel: "Email",
-                      icon: const Icon(Icons.person),
-                      secure: false,
-                      isDone: true,
+                      icon: const Icon(Icons.email),
                       onEditComleted: onEditCompleted,
                     ),
                     sizedBox(20),
                     CustomTextField(
                       controller: userNameController,
                       textlabel: "Username",
-                      icon: const Icon(Icons.person),
-                      isDone: true,
-                      secure: false,
+                      icon: const Icon(Icons.account_circle),
                       onEditComleted: onEditCompleted,
                     ),
                     sizedBox(20),
@@ -141,19 +122,16 @@ class RegisterPageState extends State<RegisterPage> {
                       textlabel: "Password",
                       icon: const Icon(Icons.lock),
                       secure: true,
-                      isDone: true,
                       onEditComleted: onEditCompleted,
                     ),
                     sizedBox(30),
                     Align(
                       alignment: Alignment.center,
-                      child: CustomLoginButton(
+                      child: CustomButton(
                         onpressed: () {
-                          loginBtnOnPress(
-                              context: context,
-                              username: userNameController.text,
-                              password: passwordController.text);
                         },
+                        title: "REGISTER",
+                        width: 220,
                       ),
                     ),
                     sizedBox(40),
@@ -182,34 +160,6 @@ class RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 80,
-            child: AppBar(
-              backgroundColor: dynamicColor,
-              automaticallyImplyLeading: false,
-              title: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text("Register", style: TextStyle(color: dynamicColor2, fontSize: 22).merge(fontFamily),),
-              ),
-              centerTitle: true,
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 10),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: white,
-                  ),
-                  iconSize: 32,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
-          )
         ]),
       ),
     );

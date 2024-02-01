@@ -8,16 +8,18 @@ class CustomTextField extends StatefulWidget {
   final bool secure;
   final bool isDone;
   final TextEditingController controller;
-   final VoidCallback? onEditComleted;
+  final VoidCallback? onEditComleted;
+  final bool isSpaceAllowed;
 
    const CustomTextField(
       {super.key,
       required this.textlabel,
       required this.icon,
-      required this.secure,
-      this.isDone = false,
+      this.secure = false,
+      this.isDone = true,
       required this.controller,
-      this.onEditComleted});
+      this.onEditComleted,
+      this.isSpaceAllowed = false });
 
   @override
   State<CustomTextField> createState() {
@@ -68,10 +70,10 @@ class CustomTextFieldState extends State<CustomTextField> {
           prefixIconColor: grey,
           labelStyle: const TextStyle(color: grey).merge(fontFamily),
           focusedBorder: textFieldBorder(red),
-          enabledBorder: textFieldBorder(green)),
-      inputFormatters: [
+          enabledBorder: textFieldBorder(grey)),
+      inputFormatters: widget.isSpaceAllowed == false ? [
         FilteringTextInputFormatter.deny(RegExp(r'\s')), // Deny spaces
-      ],
+      ] : [],
     );
   }
 
