@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:social_media/model/post_model.dart';
 import 'package:social_media/model/user_model.dart';
 import 'package:social_media/utils/style_constants.dart';
 
@@ -7,17 +8,13 @@ class TestPostRequest {
   Dio dio = Dio();
 
   Future<void> createUser() async {
-    final newUser = UserModel(
-        fullName: "Nicat Guliyev",
-        email: "Nicatguliyev3@gmail.com",
-        userName: "Qladio11",
-        password: "12345",
-        profileIimageUrl: "djkbaskd");
+    final postModel = PostModel.requestModel(null,
+        userId: 1, title: "wsbwe", content: "asdjbnksdj", likes: []);
 
-        print(apiUrl);
+    print(apiUrl);
 
     try {
-      final response = await dio.post(apiUrl, data: newUser.toJson());
+      final response = await dio.post("http://localhost:3000/posts", data: postModel.toJson(postModel));
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('User created successfully');
         print('Response data: ${response.data}');
