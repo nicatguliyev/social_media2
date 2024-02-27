@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:social_media/model/post_model.dart';
-import 'package:social_media/model/user_model.dart';
 import 'package:social_media/utils/style_constants.dart';
 
 class TestPostRequest {
@@ -14,7 +13,7 @@ class TestPostRequest {
     print(apiUrl);
 
     try {
-      final response = await dio.post("http://localhost:3000/posts", data: postModel.toJson(postModel));
+      final response = await dio.post("http://localhost:3000/posts", data: postModel.toJson());
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('User created successfully');
         print('Response data: ${response.data}');

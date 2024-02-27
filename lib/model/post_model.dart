@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class PostModel {
   final int? id;
@@ -17,13 +16,13 @@ class PostModel {
 
   PostModel.requestModel(this.id , {required this.userId, required this.title, required this.content,  required this.likes});
 
-  Map<String, dynamic> toJson(PostModel postModel) {
+  Map<String, dynamic> toJson() {
     return {
-      "id": postModel.id,
-      "title": postModel.title,
-      "content": postModel.content,
-      "userId": postModel.userId,
-      "likes": postModel.likes
+      "id": id,
+      "title": title,
+      "content": content,
+      "userId": userId,
+      "likes": likes
     };
   }
 
@@ -43,3 +42,5 @@ class PostModel {
     return super.toString();
   }
 }
+
+

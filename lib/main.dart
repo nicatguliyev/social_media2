@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:social_media/pages/login_page.dart';
+import 'package:social_media/test/test_post_listview.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return const  MaterialApp(
       title: 'Flutter Demo',
-      home: LoginPage(),
+      home: TestPostList(),
     );
   }
 }
