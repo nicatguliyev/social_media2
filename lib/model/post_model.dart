@@ -4,7 +4,7 @@ class PostModel {
   final int userId;
   final String title;
   final String content;
-  final List<int> likes;
+  final List<dynamic> likes;
 
 
   PostModel(
@@ -29,9 +29,9 @@ class PostModel {
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
         id: json["id"],
-        userId: json["userId"],
         title: json["title"],
         content: json["content"],
+        userId: json["userId"],
         likes: json["likes"]);
   }
 
