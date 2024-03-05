@@ -35,7 +35,6 @@ class PostModel {
         likes: json["likes"]);
   }
 
-  
 
   @override
   String toString() {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:social_media/model/post_model.dart';
 import 'package:social_media/utils/style_constants.dart';
 
 class PostListItem extends StatefulWidget {
-  const PostListItem({super.key});
+  final PostModel postModel;
+  const PostListItem({super.key, required this.postModel});
 
   @override
   State<PostListItem> createState() {
@@ -47,12 +49,12 @@ class PostListItemState extends State<PostListItem> {
                       const SizedBox(
                         width: 12,
                       ),
-                      const Expanded(
+                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Yakov Soobsikov",
                               style: TextStyle(
                                   color: Colors.black,
@@ -60,8 +62,8 @@ class PostListItemState extends State<PostListItem> {
                                   fontSize: 20),
                             ),
                             Text(
-                              "Flutter is awesome",
-                              style: TextStyle(
+                              widget.postModel.title,
+                              style: const TextStyle(
                                   color: Color.fromARGB(255, 71, 71, 71),
                                   fontSize: 14),
                             )
@@ -98,19 +100,19 @@ class PostListItemState extends State<PostListItem> {
                 padding: const EdgeInsets.all(2.0),
                 child: Row(
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                         const  Icon(
                             color: Colors.blue,
                             Icons.thumb_up,
                             size: 30,
                           ),
-                          SizedBox(
+                         const  SizedBox(
                             width: 10,
                           ),
-                          Text("15 Likes")
+                          Text("${widget.postModel.likes.length}Likes")
                         ],
                       ),
                     ),
