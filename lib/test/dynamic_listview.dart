@@ -15,13 +15,14 @@ class DynamicListview extends StatefulWidget {
 class DynamicListViewSate extends State<DynamicListview> {
   late List<PostModel>? posts = [];
   GetPostsRequest getPostsRequest = GetPostsRequest();
+  ApiResponse apiResponse = ApiResponse();
 
   @override
   void initState() {
     super.initState();
     getPostsRequest.getPosts().then((value) {
       setState(() {
-        posts = value;
+        apiResponse = value;
       });
     });
   }
@@ -29,17 +30,23 @@ class DynamicListViewSate extends State<DynamicListview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (posts == null || posts!.isEmpty)
+      body: (apiResponse.data == null && apiResponse.exception == null)
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemExtent: 180,
-              itemBuilder: (context, index) {
-                return PostListItem(
-                  postModel: posts![index],
-                );
-              },
-              itemCount: posts!.length,
-            ),
+          :  displayPosts(apiResponse)
     );
   }
+}
+
+Widget displayPosts(ApiResponse apiResponse) {
+  return (apiResponse.data == null)
+      ? Center(
+          child: Text(apiResponse.exception!, textAlign: TextAlign.center,),
+        )
+      : ListView.builder(
+          itemBuilder: (context, index) {
+            return PostListItem(postModel: apiResponse.data[index]);
+          },
+          itemCount: apiResponse.data.length,
+          itemExtent: 180,
+        );
 }

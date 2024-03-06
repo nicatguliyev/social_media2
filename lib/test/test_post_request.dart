@@ -8,12 +8,13 @@ class TestPostRequest {
 
   Future<void> createUser() async {
     final postModel = PostModel.requestModel(null,
-        userId: 1, title: "wsbwe", content: "asdjbnksdj", likes: []);
+        userId: 1, title: "wsbwe", content: ";sjdkbc;sad", likes: []);
 
     print(apiUrl);
 
     try {
-      final response = await dio.post("http://localhost:3000/posts", data: postModel.toJson());
+      final response = await dio.post("http://localhost:3000/posts",
+          data: postModel.toJson());
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('User created successfully');
         print('Response data: ${response.data}');
